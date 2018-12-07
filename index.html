@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Решите пример</title>
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="jquery-2.2.4.min.js"></script>
+</head>
+
+<body>
+
+<fieldset class="task">
+    <div class="task_position">
+        <div name="summand_one" class="task_number"></div>
+        <span class="task_number">+</span>
+        <div name="summand_two" class="task_number"></div>
+        <span class="task_number">=</span>
+        <div name="equally" class="task_number last_elem">?</div>
+        <input name="answer" class=" hide_class"/>
+    </div>
+    <div></div>
+    <div class="canvas_container">
+        <canvas id="myCanvas" width=875 height=253>
+            Обновите версию браузера, для просмотра.
+        </canvas>
+        <input name="number_one" class="hide input_style"/>
+        <input name="number_two" class="hide input_style"/>
+    </div>
+    <img id="sprite" src="sprite.png">
+
+</fieldset>
+
+<script>
+    function randomInteger(min, max) {
+        var rand = min + Math.random() * (max - min);
+        rand = Math.round(rand);
+        return rand;
+    }
+    function generateNumber() {
+        sumone[0].innerHTML = randomInteger(6, 9);
+        sumtwo[0].innerHTML = randomInteger(MIN - sumone[0].innerHTML, MAX - sumone[0].innerHTML);
+    }
+    function checkNumber(elem) {
+        alert("hkhkh");
+    }
+    function paintCanvasOne(first, elem) {
+
+        if (elem && elem.getContext) {
+            var context = elem.getContext('2d');
+            context.lineWidth = 2;
+            context.strokeStyle = "#cc9bb8";
+            $point1 = first * 43.2;
+            if ((first == 6) || (first == 7)) {
+                $point1 = $point1 + 8;
+            }
+            if (first == 9) {
+                $point1 = $point1 - 3;
+            }
+            $centrOne = $point1 / 2 + 20;
+            var img = new Image();
+            img.src = 'sprite.png';
+            img.onload = function () {
+                context.drawImage(img, 0, 150);
+                context.beginPath();
+                context.moveTo(34, 170);
+                context.quadraticCurveTo($centrOne, 50, $point1, 170);
+                context.stroke();
+                context.beginPath();
+                context.moveTo($point1, 170);
+                context.lineTo($point1 - 5, 160);
+                context.stroke();
+                context.beginPath();
+                context.moveTo($point1, 170);
+                context.lineTo($point1 - 10, 175);
+                context.stroke();
+
+            }
+        }
+    }
+    function paintCanvasTwo(second, elem) {
+
+        if (elem && elem.getContext) {
+            var context = elem.getContext('2d');
+            context.lineWidth = 2;
+            context.strokeStyle = "#cc9bb8";
+
+            $point2 = second * 40 - 3;
+
+            $centrTwo = $point2 / 2 + $point1;
+            context.beginPath();
+            context.moveTo($point1, 170);
+            context.quadraticCurveTo($centrTwo, 100, $point2 + $point1, 170);
+            context.stroke();
+            context.beginPath();
+            context.moveTo($point2 + $point1, 170);
+            context.lineTo($point2 + $point1 - 5, 160);
+            context.stroke();
+            context.beginPath();
+            context.moveTo($point2 + $point1, 170);
+            context.lineTo($point2 + $point1 - 10, 175);
+            context.stroke();
+
+        }
+
+    }
+    $(document).ready(function () {
+        $me = $(this);
+        sumone = $me[0].getElementsByName("summand_one");
+        sumtwo = $me[0].getElementsByName("summand_two");
+        answer = $me[0].getElementsByName("answer");
+        equally = $me[0].getElementsByName("equally");
+        MIN= 11;
+        MAX=14;
+        generateNumber();
+        first = sumone[0].innerHTML;
+        second = sumtwo[0].innerHTML;
+        $elem = document.getElementById('myCanvas');
+        paintCanvasOne(first, $elem);
+        inp = $me[0].getElementsByName("number_one");
+
+        inp[0].style.left = ($centrOne - 12) + 'px';
+
+
+        inp[0].onchange = function () {
+            $inp = $(this);
+
+            if ($inp[0].value != sumone[0].innerHTML) {
+                sumone[0].classList.add("correct");
+                $inp[0].classList.add("fill");
+                sumone[0].classList.remove("ok");
+            }
+            else {
+                if (sumone[0].classList.contains("correct")) {
+                    sumone[0].classList.remove("correct");
+                    $inp[0].classList.remove("fill");
+
+                }
+                $inp[0].classList.add("hide_input");
+                $inp[0].disabled = "disabled";
+                paintCanvasTwo(second, $elem);
+                inp2 = $me[0].getElementsByName("number_two");
+
+                inp2[0].style.left = ($centrTwo - 12) + 'px';
+                inp2[0].style.top = 90 + 'px';
+                inp2[0].onchange = function () {
+                    $inp2 = $(this);
+
+                    if ($inp2[0].value != sumtwo[0].innerHTML) {
+                        sumtwo[0].classList.add("correct");
+                        $inp2[0].classList.add("fill");
+
+                    }
+                    else {
+                        if (sumtwo[0].classList.contains("correct")) {
+                            sumtwo[0].classList.remove("correct");
+                            $inp2[0].classList.remove("fill");
+
+                        }
+                        $inp2[0].classList.add("hide_input");
+                        $inp2[0].disabled = "disabled";
+                        equally[0].classList.add("hide_class");
+                        answer[0].classList.add("answer_input");
+                    }
+                    answer[0].onchange = function () {
+                        if (answer[0].value != +sumtwo[0].innerHTML + Number(sumone[0].innerHTML)) {
+                            answer[0].classList.add("fill");
+
+                        }
+                        else {
+                            if (answer[0].classList.contains("correct")) {
+                                answer[0].classList.remove("correct");
+                            }
+                            answer[0].classList.add("hide_input");
+                            answer[0].disabled = "disabled";
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+* {
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+#sprite {
+    width: 1px;
+    height: 1px;
+
+}
+
+.task {
+
+    text-align: center;
+    font-family: "Myriad Pro";
+    padding-top: 20px;
+}
+
+.task_position {
+    display: inline-block;
+}
+
+.canvas_container {
+    position: relative;
+    display: inline-block;
+}
+
+#myCanvas {
+    display: block;
+    margin: 0 auto;
+
+}
+
+.task_number {
+    font-size: 30px;
+    padding-right: 5px;
+    padding-left: 5px;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.hide {
+    position: absolute;
+    left: -500px;
+    top: 70px;
+
+}
+
+.correct {
+    background-color: #f4ac48;
+}
+
+.fill {
+    color: #cc8e8f;
+}
+
+.hide_class {
+    visibility: hidden;
+
+}
+
+.answer_input {
+    visibility: visible;
+    padding-right: 5px;
+    padding-left: 5px;
+    font-size: 30px;
+    width: 50px;
+    border-radius: 5px;
+}
+
+.input_style {
+    width: 30px;
+    padding-right: 5px;
+    padding-left: 5px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 4px;
+    border-radius: 5px;
+}
+
+.last_elem {
+    margin-right: -30px;
+}
+
+.hide_input {
+    border-style: none;
+}
+
+input[disabled] {
+    background: white;
+    color: black;
+}
